@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Календарь исторических событий — от Рождества Христова до наших дней</title>
+  <meta name="description" content="Учебный календарь ключевых исторических событий: кратко, наглядно, с иллюстрациями из Википедии." />
+  <style>
+    :root{
+      --bg: #0b0f14;
+      --card: #121822;
+      --text: #e8eef7;
+      --muted: #9fb3c8;
+      --accent: #58a6ff;
+      --accent-2: #7ee787;
+      --border: #223040;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --chip: #1b2635;
+      --placeholder: #1a2230;
+      --ok: #2ea043;
+      --warn: #e3b341;
+    }
+    .light{
+      --bg: #f7fbff;
+      --card: #ffffff;
+      --text: #0f1720;
+      --muted: #41576d;
+      --accent: #1d4ed8;
+      --accent-2: #0f766e;
+      --border: #d9e5f2;
+      --shadow: 0 8px 24px rgba(2, 32, 71, .10);
+      --chip: #eef5fd;
+      --placeholder: #eef3f8;
+      --ok: #16a34a;
+      --warn: #b45309;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      letter-spacing:.2px;
+    }
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, color-mix(in oklab, var(--bg) 88%, transparent), transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:16px 20px;}
+    h1{margin:4px 0 8px; font-size:clamp(20px, 3.2vw, 32px); line-height:1.2}
+    p.lead{margin:0; color:var(--muted)}
+    .controls{
+      display:flex; gap:12px; flex-wrap:wrap; margin-top:12px
+    }
+    .search{
+      flex:1 1 320px; display:flex; align-items:center; gap:10px;
+      background:var(--card); border:1px solid var(--border); border-radius:12px; padding:10px 14px; box-shadow:var(--shadow)
+    }
+    .search input{
+      border:none; outline:none; background:transparent; color:var(--text); width:100%;
+      font-size:15px;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px; border-radius:999px;
+      padding:10px 14px; border:1px solid var(--border); background:var(--chip);
+      color:var(--text); cursor:pointer; user-select:none; box-shadow:var(--shadow);
+      font-size:14px;
+    }
+    .chip .dot{width:8px; height:8px; border-radius:50%; background:var(--accent)}
+    .btn{
+      border:1px solid var(--border); background:linear-gradient(180deg, color-mix(in oklab, var(--card) 86%, transparent), var(--card));
+      color:var(--text); padding:10px 14px; border-radius:12px; cursor:pointer; box-shadow:var(--shadow);
+      display:inline-flex; align-items:center; gap:8px; font-weight:600;
+    }
+    .btn:hover{border-color:color-mix(in oklab, var(--accent) 40%, var(--border))}
+    .timeline{
+      position:relative; margin:24px auto; padding: 0 20px 80px;
+      max-width:1100px;
+    }
+    .grid{
+      display:grid; gap:18px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items:stretch;
+    }
+    .card{
+      display:grid; grid-template-rows: auto auto 1fr auto; gap:10px;
+      background:var(--card); border:1px solid var(--border); border-radius:18px; overflow:hidden; box-shadow:var(--shadow);
+      transition: transform .2s ease;
+    }
+    .card:hover{ transform: translateY(-2px) }
+    .media{
+      position:relative; aspect-ratio: 16/9; background:var(--placeholder);
+      overflow:hidden; border-bottom:1px solid var(--border);
+    }
+    .media img{
+      width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition:opacity .3s ease;
+    }
+    .skeleton{
+      position:absolute; inset:0; background:
+        linear-gradient(90deg, transparent, color-mix(in oklab, var(--placeholder) 40%, white 0%), transparent);
+      animation: shimmer 1.6s infinite;
+    }
+    @keyframes shimmer{ 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)}}
+    .content{padding:14px 16px}
+    .year{font-size:13px; font-weight:700; color:var(--accent-2); text-transform:uppercase; letter-spacing:.8px}
+    .title{margin:4px 0 6px; font-size:18px; line-height:1.25}
+    .desc{margin:0; color:var(--muted)}
+    .meta{
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+      padding:12px 16px; border-top:1px solid var(--border); color:var(--muted); font-size:12px
+    }
+    .tag{padding:6px 10px; background:var(--chip); border:1px solid var(--border); border-radius:999px}
+    .footer{
+      text-align:center; color:var(--muted); margin: 28px 0 40px; font-size:13px;
+    }
+    .floating{
+      position:fixed; right:18px; bottom:18px; display:flex; flex-direction:column; gap:10px; z-index:40;
+    }
+    .mini{
+      width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+      background:var(--card); border:1px solid var(--border); box-shadow:var(--shadow); cursor:pointer;
+    }
+    .mini:hover{border-color:var(--accent)}
+    .legend{display:flex; gap:10px; flex-wrap:wrap}
+    .legend .tag{font-weight:600}
+    .legend .tag.world{border-color:transparent; background:color-mix(in oklab, var(--accent) 18%, var(--chip))}
+    .legend .tag.rus{border-color:transparent; background:color-mix(in oklab, var(--accent-2) 18%, var(--chip))}
+    @media print{
+      header, .controls, .floating{display:none!important}
+      body{background:#fff; color:#000}
+      .card{break-inside:avoid}
+      .timeline{padding-bottom:0}
+    }
+  </style>
+</head>
+<body class="light">
+<header>
+  <div class="wrap">
+    <h1>Календарь исторических событий</h1>
+    <p class="lead">От Рождества Христова до наших дней — 20 ярких моментов истории. Коротко, понятно, с картинками.</p>
+    <div class="controls">
+      <label class="search" title="Поиск по годам, названиям и описанию">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M21 21l-4.2-4.2m1.4-5.3a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <input id="q" placeholder="Найдите событие (например, «Луна» или «1917»)" />
+      </label>
+      <button id="toggleTheme" class="btn" type="button" title="Переключить тему">
+        🌓 Тема
+      </button>
+      <button id="sortBtn" class="btn" type="button" title="Сортировать по дате">
+        ⏱️ По дате (возр.)
+      </button>
+      <div class="legend">
+        <span class="tag rus">Россия / Русь</span>
+        <span class="tag world">Мир</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="timeline">
+  <div class="wrap">
+    <div id="grid" class="grid" aria-live="polite"></div>
+    <div class="footer">Изображения подгружаются из Википедии (RU), тексты — краткие пояснения для школьного проекта.</div>
+  </div>
+</main>
+
+<div class="floating">
+  <button class="mini" id="toTop" title="В начало">⬆️</button>
+  <button class="mini" id="toBottom" title="В конец">⬇️</button>
+</div>
+
+<script>
+/** Данные событий: год/период, заголовок, короткое описание, метка (rus/world), заголовок статьи на RU Википедии */
+const events = [
+  {year:"1",      title:"Рождение Иисуса Христа", desc:"Начало новой эры; учение Иисуса легло в основу христианства.", tag:"world", wiki:"Рождение_Иисуса_Христа"},
+  {year:"862",    title:"Призвание Рюрика", desc:"Начало правления варяжской династии и объединения земель вокруг Новгорода.", tag:"rus", wiki:"Рюрик"},
+  {year:"988",    title:"Крещение Руси", desc:"Князь Владимир выбирает христианство — меняется вера и культура.", tag:"rus", wiki:"Крещение_Руси"},
+  {year:"1242",   title:"Ледовое побоище", desc:"Победа Александра Невского над Ливонским орденом на Чудском озере.", tag:"rus", wiki:"Ледовое_побоище"},
+  {year:"1380",   title:"Куликовская битва", desc:"Первая крупная победа над ордынцами, укрепление Москвы.", tag:"rus", wiki:"Куликовская_битва"},
+  {year:"1492",   title:"Открытие Америки", desc:"Экспедиция Колумба открывает Европе новый континент.", tag:"world", wiki:"Христофор_Колумб"},
+  {year:"1703",   title:"Основание Санкт-Петербурга", desc:"Пётр I закладывает новую столицу — «окно в Европу».", tag:"rus", wiki:"Санкт-Петербург"},
+  {year:"1812",   title:"Отечественная война 1812 года", desc:"Армия и народ прогоняют Наполеона из России.", tag:"rus", wiki:"Отечественная_война_1812_года"},
+  {year:"1861",   title:"Отмена крепостного права", desc:"Крестьяне получили личную свободу.", tag:"rus", wiki:"Отмена_крепостного_права_в_России"},
+  {year:"1869",   title:"Таблица Менделеева", desc:"Русский учёный Дмитрий Менделеев упорядочил элементы и предсказал новые.", tag:"rus", wiki:"Периодическая_система_химических_элементов"},
+  {year:"1903",   title:"Первые полёты", desc:"Братья Райт поднимают самолёт в небо — начинается авиация.", tag:"world", wiki:"Братья_Райт"},
+  {year:"1917",   title:"Революция в России", desc:"Конец монархии и начало новой власти.", tag:"rus", wiki:"Русская_революция"},
+  {year:"1941–1945", title:"Великая Отечественная война", desc:"Победа над нацизмом, 9 мая — День Победы.", tag:"rus", wiki:"Великая_Отечественная_война"},
+  {year:"1957",   title:"Первый спутник Земли", desc:"СССР запускает «Спутник-1», начинается космическая эра.", tag:"rus", wiki:"Спутник-1"},
+  {year:"1961",   title:"Гагарин в космосе", desc:"Юрий Гагарин — первый человек в космосе.", tag:"rus", wiki:"Гагарин,_Юрий_Алексеевич"},
+  {year:"1969",   title:"Человек на Луне", desc:"Экипаж «Аполлона-11» ступает на Луну.", tag:"world", wiki:"Аполлон-11"},
+  {year:"1986",   title:"Чернобыльская авария", desc:"Крупнейшая техногенная катастрофа на АЭС.", tag:"rus", wiki:"Авария_на_Чернобыльской_АЭС"},
+  {year:"1991",   title:"Распад СССР", desc:"Появляется Российская Федерация.", tag:"rus", wiki:"Распад_СССР"},
+  {year:"2007",   title:"Эра смартфонов", desc:"iPhone задаёт новый стандарт — компьютер и камера в кармане.", tag:"world", wiki:"IPhone_(1-е_поколение)"},
+  {year:"2020",   title:"Пандемия COVID-19", desc:"Мир на карантине; быстрые вакцины и рост онлайн-сервисов.", tag:"world", wiki:"Пандемия_COVID-19"}
+];
+
+let asc = true;
+
+const grid = document.getElementById('grid');
+const q = document.getElementById('q');
+const sortBtn = document.getElementById('sortBtn');
+const toTop = document.getElementById('toTop');
+const toBottom = document.getElementById('toBottom');
+const toggleTheme = document.getElementById('toggleTheme');
+
+function normalizeYear(y){
+  // берём первое число из диапазона "1941–1945" → 1941, иначе просто число
+  const m = (y+"").match(/\d{1,4}/);
+  return m ? parseInt(m[0], 10) : 0;
+}
+
+function render(list){
+  grid.innerHTML = '';
+  list.forEach(ev => {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.dataset.tag = ev.tag;
+
+    // Медиа
+    const media = document.createElement('div');
+    media.className = 'media';
+    const sk = document.createElement('div');
+    sk.className = 'skeleton';
+    const img = document.createElement('img');
+    img.alt = ev.title;
+    media.append(sk, img);
+
+    // Контент
+    const content = document.createElement('div');
+    content.className = 'content';
+    const year = document.createElement('div'); year.className='year'; year.textContent = ev.year;
+    const h3 = document.createElement('h3'); h3.className='title'; h3.textContent = ev.title;
+    const p = document.createElement('p'); p.className='desc'; p.textContent = ev.desc;
+    content.append(year, h3, p);
+
+    // Низ карточки
+    const meta = document.createElement('div'); meta.className='meta';
+    const tag = document.createElement('span'); tag.className='tag'; tag.textContent = ev.tag === 'rus' ? 'Россия / Русь' : 'Мир';
+    const link = document.createElement('a');
+    link.href = `https://ru.wikipedia.org/wiki/${encodeURIComponent(ev.wiki)}`;
+    link.target = '_blank'; link.rel = 'noopener noreferrer';
+    link.className = 'btn'; link.style.padding='6px 10px'; link.textContent = 'Открыть в Википедии';
+    meta.append(tag, link);
+
+    card.append(media, content, meta);
+    grid.append(card);
+
+    // Подгрузка изображения через Wikipedia REST API
+    fetch(`https://ru.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(ev.wiki)}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        let src = data && data.thumbnail ? data.thumbnail.source : null;
+        if(!src && data && data.originalimage) src = data.originalimage.source;
+        if(src){
+          img.src = src;
+          img.onload = () => { img.style.opacity = 1; sk.remove(); }
+          img.onerror = () => { imgRemoveSkeleton(); }
+        }else{
+          imgRemoveSkeleton();
+        }
+        function imgRemoveSkeleton(){
+          sk.remove();
+          // плейсхолдер SVG
+          const ph = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900">
+              <defs>
+                <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#334155"/>
+                  <stop offset="100%" stop-color="#0f172a"/>
+                </linearGradient>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#g)"/>
+              <g fill="#94a3b8" font-family="system-ui,Segoe UI,Roboto" font-size="56">
+                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">Нет изображения</text>
+              </g>
+            </svg>
+          `);
+          img.src = ph; img.style.opacity = 1;
+        }
+      })
+      .catch(() => {
+        // если API недоступен — показать плейсхолдер
+        sk.remove();
+        img.src = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900"><rect width="100%" height="100%" fill="#1f2937"/></svg>');
+        img.style.opacity = 1;
+      });
+  });
+}
+
+function doFilter(){
+  const term = q.value.trim().toLowerCase();
+  const filtered = events.filter(e => (e.year+' '+e.title+' '+e.desc).toLowerCase().includes(term));
+  const list = filtered.sort((a,b)=> (asc?1:-1) * (normalizeYear(a.year) - normalizeYear(b.year)));
+  render(list);
+}
+
+q.addEventListener('input', doFilter);
+sortBtn.addEventListener('click', ()=>{
+  asc = !asc;
+  sortBtn.textContent = asc ? '⏱️ По дате (возр.)' : '⏱️ По дате (убыв.)';
+  doFilter();
+});
+toTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+toBottom.addEventListener('click', ()=> window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'}));
+
+toggleTheme.addEventListener('click', ()=>{
+  document.body.classList.toggle('light');
+  localStorage.setItem('calendarTheme', document.body.classList.contains('light') ? 'light' : 'dark');
+});
+
+// инициализация
+(function init(){
+  const saved = localStorage.getItem('calendarTheme');
+  if(saved === 'dark') document.body.classList.remove('light');
+  render([...events].sort((a,b)=> normalizeYear(a.year) - normalizeYear(b.year)));
+})();
+</script>
+</body>
+</html>
