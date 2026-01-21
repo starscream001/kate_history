@@ -3,319 +3,276 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Календарь исторических событий — от Рождества Христова до наших дней</title>
-  <meta name="description" content="Учебный календарь ключевых исторических событий: кратко, наглядно, с иллюстрациями из Википедии." />
+  <title>Доклад: Древний Египет глазами 10-летней девочки</title>
+  <meta name="description" content="Интерактивный доклад по окружающему миру про Древний Египет: факты, картинки, мини-игры и личные впечатления." />
   <style>
     :root{
-      --bg: #0b0f14;
-      --card: #121822;
-      --text: #e8eef7;
-      --muted: #9fb3c8;
-      --accent: #58a6ff;
-      --accent-2: #7ee787;
-      --border: #223040;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --chip: #1b2635;
-      --placeholder: #1a2230;
-      --ok: #2ea043;
-      --warn: #e3b341;
-    }
-    .light{
-      --bg: #f7fbff;
-      --card: #ffffff;
-      --text: #0f1720;
-      --muted: #41576d;
-      --accent: #1d4ed8;
-      --accent-2: #0f766e;
-      --border: #d9e5f2;
-      --shadow: 0 8px 24px rgba(2, 32, 71, .10);
-      --chip: #eef5fd;
-      --placeholder: #eef3f8;
-      --ok: #16a34a;
-      --warn: #b45309;
+      --bg:#f7f5ff;
+      --card:#ffffff;
+      --text:#1a1b2a;
+      --muted:#5b5f7a;
+      --accent:#6b4eff;
+      --accent-2:#ffb454;
+      --accent-3:#3ccf91;
+      --border:#e5e2ff;
+      --shadow:0 12px 26px rgba(48, 32, 98, 0.15);
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
-      margin:0; background:var(--bg); color:var(--text);
-      font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-      letter-spacing:.2px;
+      margin:0;
+      font-family:"Segoe UI", system-ui, -apple-system, sans-serif;
+      background:linear-gradient(180deg,#f8f5ff 0%, #fff5e6 100%);
+      color:var(--text);
+      line-height:1.6;
     }
     header{
-      position:sticky; top:0; z-index:50; backdrop-filter: blur(8px);
-      background: linear-gradient(180deg, color-mix(in oklab, var(--bg) 88%, transparent), transparent);
-      border-bottom:1px solid var(--border);
+      padding:40px 20px 20px;
+      text-align:center;
     }
-    .wrap{max-width:1100px; margin:0 auto; padding:16px 20px;}
-    h1{margin:4px 0 8px; font-size:clamp(20px, 3.2vw, 32px); line-height:1.2}
-    p.lead{margin:0; color:var(--muted)}
-    .controls{
-      display:flex; gap:12px; flex-wrap:wrap; margin-top:12px
+    header h1{
+      margin:0 0 10px;
+      font-size:clamp(26px, 3vw, 36px);
     }
-    .search{
-      flex:1 1 320px; display:flex; align-items:center; gap:10px;
-      background:var(--card); border:1px solid var(--border); border-radius:12px; padding:10px 14px; box-shadow:var(--shadow)
+    header p{
+      margin:0 auto;
+      max-width:760px;
+      color:var(--muted);
+      font-size:clamp(15px, 2vw, 18px);
     }
-    .search input{
-      border:none; outline:none; background:transparent; color:var(--text); width:100%;
-      font-size:15px;
+    main{max-width:1100px;margin:0 auto;padding:0 20px 60px;}
+    section{margin:30px 0;}
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:22px;
     }
-    .chip{
-      display:inline-flex; align-items:center; gap:8px; border-radius:999px;
-      padding:10px 14px; border:1px solid var(--border); background:var(--chip);
-      color:var(--text); cursor:pointer; user-select:none; box-shadow:var(--shadow);
-      font-size:14px;
+    .hero{
+      display:grid;
+      gap:20px;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      align-items:center;
     }
-    .chip .dot{width:8px; height:8px; border-radius:50%; background:var(--accent)}
-    .btn{
-      border:1px solid var(--border); background:linear-gradient(180deg, color-mix(in oklab, var(--card) 86%, transparent), var(--card));
-      color:var(--text); padding:10px 14px; border-radius:12px; cursor:pointer; box-shadow:var(--shadow);
-      display:inline-flex; align-items:center; gap:8px; font-weight:600;
+    .hero img{
+      width:100%;
+      border-radius:16px;
+      object-fit:cover;
+      height:240px;
     }
-    .btn:hover{border-color:color-mix(in oklab, var(--accent) 40%, var(--border))}
-    .timeline{
-      position:relative; margin:24px auto; padding: 0 20px 80px;
-      max-width:1100px;
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(107, 78, 255, 0.12);
+      color:var(--accent);
+      font-weight:600;
+      font-size:13px;
+      gap:6px;
     }
     .grid{
-      display:grid; gap:18px;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      align-items:stretch;
+      display:grid;
+      gap:18px;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
     }
-    .card{
-      display:grid; grid-template-rows: auto auto 1fr auto; gap:10px;
-      background:var(--card); border:1px solid var(--border); border-radius:18px; overflow:hidden; box-shadow:var(--shadow);
-      transition: transform .2s ease;
+    .fact-btn{
+      border:0;
+      background:var(--accent);
+      color:white;
+      border-radius:10px;
+      padding:10px 14px;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 8px 16px rgba(107,78,255,.25);
     }
-    .card:hover{ transform: translateY(-2px) }
-    .media{
-      position:relative; aspect-ratio: 16/9; background:var(--placeholder);
-      overflow:hidden; border-bottom:1px solid var(--border);
+    .fact{
+      padding:14px;
+      border-radius:14px;
+      background:#f4f2ff;
+      border:1px dashed #c6c0ff;
+      display:none;
+      margin-top:10px;
     }
-    .media img{
-      width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition:opacity .3s ease;
+    .fact.show{display:block;}
+    .gallery img{
+      width:100%;
+      height:200px;
+      object-fit:cover;
+      border-radius:14px;
     }
-    .skeleton{
-      position:absolute; inset:0; background:
-        linear-gradient(90deg, transparent, color-mix(in oklab, var(--placeholder) 40%, white 0%), transparent);
-      animation: shimmer 1.6s infinite;
+    .quiz{
+      display:grid;
+      gap:16px;
     }
-    @keyframes shimmer{ 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)}}
-    .content{padding:14px 16px}
-    .year{font-size:13px; font-weight:700; color:var(--accent-2); text-transform:uppercase; letter-spacing:.8px}
-    .title{margin:4px 0 6px; font-size:18px; line-height:1.25}
-    .desc{margin:0; color:var(--muted)}
-    .meta{
-      display:flex; align-items:center; justify-content:space-between; gap:8px;
-      padding:12px 16px; border-top:1px solid var(--border); color:var(--muted); font-size:12px
+    .quiz button{
+      border:1px solid var(--border);
+      padding:10px 12px;
+      border-radius:12px;
+      background:#fff;
+      cursor:pointer;
+      font-weight:600;
     }
-    .tag{padding:6px 10px; background:var(--chip); border:1px solid var(--border); border-radius:999px}
+    .quiz button.correct{background:rgba(60, 207, 145, 0.18);border-color:var(--accent-3);}
+    .quiz button.wrong{background:rgba(255, 180, 84, 0.2);border-color:var(--accent-2);}
     .footer{
-      text-align:center; color:var(--muted); margin: 28px 0 40px; font-size:13px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+      margin-top:30px;
     }
-    .floating{
-      position:fixed; right:18px; bottom:18px; display:flex; flex-direction:column; gap:10px; z-index:40;
+    .timeline{
+      border-left:4px solid var(--accent);
+      padding-left:16px;
+      display:grid;
+      gap:16px;
     }
-    .mini{
-      width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
-      background:var(--card); border:1px solid var(--border); box-shadow:var(--shadow); cursor:pointer;
+    .timeline-item{
+      background:#fdf8ff;
+      border-radius:14px;
+      padding:12px 14px;
+      border:1px solid var(--border);
     }
-    .mini:hover{border-color:var(--accent)}
-    .legend{display:flex; gap:10px; flex-wrap:wrap}
-    .legend .tag{font-weight:600}
-    .legend .tag.world{border-color:transparent; background:color-mix(in oklab, var(--accent) 18%, var(--chip))}
-    .legend .tag.rus{border-color:transparent; background:color-mix(in oklab, var(--accent-2) 18%, var(--chip))}
-    @media print{
-      header, .controls, .floating{display:none!important}
-      body{background:#fff; color:#000}
-      .card{break-inside:avoid}
-      .timeline{padding-bottom:0}
-    }
+    .sparkle{color:var(--accent-2);}
   </style>
 </head>
-<body class="light">
-<header>
-  <div class="wrap">
-    <h1>Календарь исторических событий</h1>
-    <p class="lead">От Рождества Христова до наших дней — 20 ярких моментов истории. Коротко, понятно, с картинками.</p>
-    <div class="controls">
-      <label class="search" title="Поиск по годам, названиям и описанию">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M21 21l-4.2-4.2m1.4-5.3a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-        <input id="q" placeholder="Найдите событие (например, «Луна» или «1917»)" />
-      </label>
-      <button id="toggleTheme" class="btn" type="button" title="Переключить тему">
-        🌓 Тема
-      </button>
-      <button id="sortBtn" class="btn" type="button" title="Сортировать по дате">
-        ⏱️ По дате (возр.)
-      </button>
-      <div class="legend">
-        <span class="tag rus">Россия / Русь</span>
-        <span class="tag world">Мир</span>
+<body>
+  <header>
+    <h1>Доклад по окружающему миру: «Древний Египет»</h1>
+    <p>Привет! Я Лиза, мне 10 лет, и я расскажу про Древний Египет. Я посмотрела мультфильмы и фильмы про него и захотела узнать ещё больше — поэтому сделала интерактивный доклад с фактами, картинками и мини-игрой!</p>
+  </header>
+
+  <main>
+    <section class="card hero">
+      <div>
+        <span class="tag">🌞 Египет = страна солнца</span>
+        <h2>Что меня удивило больше всего</h2>
+        <p>Я сначала увидела пирамиды в мультфильме, а потом в фильме про археологов. Они оказались не просто красивыми, а очень умными постройками — там есть тайные коридоры, ловушки и даже «звёздные» шахты! Я захотела узнать, как люди без кранов строили такие огромные камни.</p>
+        <p>Ещё меня впечатлила река Нил. Она была как «волшебная река», потому что каждый год разливалась и делала землю плодородной. Без Нила Древний Египет не был бы таким богатым.</p>
       </div>
-    </div>
-  </div>
-</header>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Kheops-Pyramid.jpg" alt="Пирамида Хеопса" />
+    </section>
 
-<main class="timeline">
-  <div class="wrap">
-    <div id="grid" class="grid" aria-live="polite"></div>
-    <div class="footer">Изображения подгружаются из Википедии (RU), тексты — краткие пояснения для школьного проекта.</div>
-  </div>
-</main>
+    <section class="card">
+      <h2>Что я посмотрела 🎬</h2>
+      <div class="grid">
+        <div>
+          <h3>Мультфильмы</h3>
+          <ul>
+            <li>«Принц Египта» — там красиво поют и показывают пустыню и Нил.</li>
+            <li>«Смешарики» про пирамиды — смешно, но помогает запомнить, что пирамиды — это гробницы.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Фильмы и передачи</h3>
+          <ul>
+            <li>Фильм про археологов, которые ищут сокровища и изучают мумии.</li>
+            <li>Детская передача про Египет с картой и раскопками.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Почему захотела узнать больше</h3>
+          <p>В фильмах всё было быстро, а мне захотелось узнать, <strong>как жили обычные дети</strong>, что они ели и во что играли. Поэтому я собрала факты!</p>
+        </div>
+      </div>
+    </section>
 
-<div class="floating">
-  <button class="mini" id="toTop" title="В начало">⬆️</button>
-  <button class="mini" id="toBottom" title="В конец">⬇️</button>
-</div>
+    <section class="card">
+      <h2>Интерактив: нажми и узнай факт! ✨</h2>
+      <div class="grid">
+        <div>
+          <button class="fact-btn" data-target="fact-1">Факт про пирамиды</button>
+          <div id="fact-1" class="fact">Самая большая пирамида — Хеопса. Она была самой высокой постройкой мира около 3800 лет!</div>
+        </div>
+        <div>
+          <button class="fact-btn" data-target="fact-2">Факт про кошек</button>
+          <div id="fact-2" class="fact">Кошек считали священными. Если кошка умирала, семья могла устраивать траур.</div>
+        </div>
+        <div>
+          <button class="fact-btn" data-target="fact-3">Факт про письмо</button>
+          <div id="fact-3" class="fact">Египтяне писали иероглифами. Учиться писать было сложно, поэтому писцы были очень уважаемыми.</div>
+        </div>
+      </div>
+    </section>
 
-<script>
-/** Данные событий: год/период, заголовок, короткое описание, метка (rus/world), заголовок статьи на RU Википедии */
-const events = [
-  {year:"1",      title:"Рождение Иисуса Христа", desc:"Начало новой эры; учение Иисуса легло в основу христианства.", tag:"world", wiki:"Рождение_Иисуса_Христа"},
-  {year:"862",    title:"Призвание Рюрика", desc:"Начало правления варяжской династии и объединения земель вокруг Новгорода.", tag:"rus", wiki:"Рюрик"},
-  {year:"988",    title:"Крещение Руси", desc:"Князь Владимир выбирает христианство — меняется вера и культура.", tag:"rus", wiki:"Крещение_Руси"},
-  {year:"1242",   title:"Ледовое побоище", desc:"Победа Александра Невского над Ливонским орденом на Чудском озере.", tag:"rus", wiki:"Ледовое_побоище"},
-  {year:"1380",   title:"Куликовская битва", desc:"Первая крупная победа над ордынцами, укрепление Москвы.", tag:"rus", wiki:"Куликовская_битва"},
-  {year:"1492",   title:"Открытие Америки", desc:"Экспедиция Колумба открывает Европе новый континент.", tag:"world", wiki:"Христофор_Колумб"},
-  {year:"1703",   title:"Основание Санкт-Петербурга", desc:"Пётр I закладывает новую столицу — «окно в Европу».", tag:"rus", wiki:"Санкт-Петербург"},
-  {year:"1812",   title:"Отечественная война 1812 года", desc:"Армия и народ прогоняют Наполеона из России.", tag:"rus", wiki:"Отечественная_война_1812_года"},
-  {year:"1861",   title:"Отмена крепостного права", desc:"Крестьяне получили личную свободу.", tag:"rus", wiki:"Отмена_крепостного_права_в_России"},
-  {year:"1869",   title:"Таблица Менделеева", desc:"Русский учёный Дмитрий Менделеев упорядочил элементы и предсказал новые.", tag:"rus", wiki:"Периодическая_система_химических_элементов"},
-  {year:"1903",   title:"Первые полёты", desc:"Братья Райт поднимают самолёт в небо — начинается авиация.", tag:"world", wiki:"Братья_Райт"},
-  {year:"1917",   title:"Революция в России", desc:"Конец монархии и начало новой власти.", tag:"rus", wiki:"Русская_революция"},
-  {year:"1941–1945", title:"Великая Отечественная война", desc:"Победа над нацизмом, 9 мая — День Победы.", tag:"rus", wiki:"Великая_Отечественная_война"},
-  {year:"1957",   title:"Первый спутник Земли", desc:"СССР запускает «Спутник-1», начинается космическая эра.", tag:"rus", wiki:"Спутник-1"},
-  {year:"1961",   title:"Гагарин в космосе", desc:"Юрий Гагарин — первый человек в космосе.", tag:"rus", wiki:"Гагарин,_Юрий_Алексеевич"},
-  {year:"1969",   title:"Человек на Луне", desc:"Экипаж «Аполлона-11» ступает на Луну.", tag:"world", wiki:"Аполлон-11"},
-  {year:"1986",   title:"Чернобыльская авария", desc:"Крупнейшая техногенная катастрофа на АЭС.", tag:"rus", wiki:"Авария_на_Чернобыльской_АЭС"},
-  {year:"1991",   title:"Распад СССР", desc:"Появляется Российская Федерация.", tag:"rus", wiki:"Распад_СССР"},
-  {year:"2007",   title:"Эра смартфонов", desc:"iPhone задаёт новый стандарт — компьютер и камера в кармане.", tag:"world", wiki:"IPhone_(1-е_поколение)"},
-  {year:"2020",   title:"Пандемия COVID-19", desc:"Мир на карантине; быстрые вакцины и рост онлайн-сервисов.", tag:"world", wiki:"Пандемия_COVID-19"}
-];
+    <section class="card">
+      <h2>Мини-викторина: угадай правильно! 🧩</h2>
+      <div class="quiz" data-answer="2">
+        <strong>Как называется самая длинная река Египта?</strong>
+        <button>Амазонка</button>
+        <button>Нил</button>
+        <button>Волга</button>
+      </div>
+      <p id="quiz-result" class="sparkle"></p>
+    </section>
 
-let asc = true;
+    <section class="card">
+      <h2>Маленькая лента времени</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <strong>~3000 год до н.э.</strong> — объединение Египта и появление первых фараонов.
+        </div>
+        <div class="timeline-item">
+          <strong>~2600 год до н.э.</strong> — строятся великие пирамиды в Гизе.
+        </div>
+        <div class="timeline-item">
+          <strong>~1330 год до н.э.</strong> — правление Тутанхамона, его гробницу нашли почти целой.
+        </div>
+      </div>
+    </section>
 
-const grid = document.getElementById('grid');
-const q = document.getElementById('q');
-const sortBtn = document.getElementById('sortBtn');
-const toTop = document.getElementById('toTop');
-const toBottom = document.getElementById('toBottom');
-const toggleTheme = document.getElementById('toggleTheme');
+    <section class="card gallery">
+      <h2>Галерея: что я представила</h2>
+      <div class="grid">
+        <figure>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Karnak_Tempel.jpg" alt="Храм в Карнаке" />
+          <figcaption>Огромные колонны храмов — как каменный лес.</figcaption>
+        </figure>
+        <figure>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Sarcophagus_of_Tutankhamun.jpg" alt="Саркофаг Тутанхамона" />
+          <figcaption>Золотой саркофаг фараона Тутанхамона.</figcaption>
+        </figure>
+        <figure>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Egypt_Nile_River.jpg" alt="Река Нил" />
+          <figcaption>Нил — главная река, благодаря которой всё росло.</figcaption>
+        </figure>
+      </div>
+    </section>
 
-function normalizeYear(y){
-  // берём первое число из диапазона "1941–1945" → 1941, иначе просто число
-  const m = (y+"").match(/\d{1,4}/);
-  return m ? parseInt(m[0], 10) : 0;
-}
+    <section class="card">
+      <h2>Мой вывод 📝</h2>
+      <p>Древний Египет — это не только пирамиды. Это умные люди, которые придумали календарь, строили каналы, рисовали яркие рисунки и умели делать красивые украшения. Мне хочется узнать больше про жизнь детей: какие у них были игры и какие у них были домашние животные.</p>
+      <p>Спасибо за внимание! Если хотите, могу показать ещё рисунки и рассказать, какой фараон мне понравился больше всего. 🙂</p>
+    </section>
 
-function render(list){
-  grid.innerHTML = '';
-  list.forEach(ev => {
-    const card = document.createElement('article');
-    card.className = 'card';
-    card.dataset.tag = ev.tag;
+    <div class="footer">Доклад подготовила Лиза, 10 лет. Сделано с интересом и любовью к истории.</div>
+  </main>
 
-    // Медиа
-    const media = document.createElement('div');
-    media.className = 'media';
-    const sk = document.createElement('div');
-    sk.className = 'skeleton';
-    const img = document.createElement('img');
-    img.alt = ev.title;
-    media.append(sk, img);
-
-    // Контент
-    const content = document.createElement('div');
-    content.className = 'content';
-    const year = document.createElement('div'); year.className='year'; year.textContent = ev.year;
-    const h3 = document.createElement('h3'); h3.className='title'; h3.textContent = ev.title;
-    const p = document.createElement('p'); p.className='desc'; p.textContent = ev.desc;
-    content.append(year, h3, p);
-
-    // Низ карточки
-    const meta = document.createElement('div'); meta.className='meta';
-    const tag = document.createElement('span'); tag.className='tag'; tag.textContent = ev.tag === 'rus' ? 'Россия / Русь' : 'Мир';
-    const link = document.createElement('a');
-    link.href = `https://ru.wikipedia.org/wiki/${encodeURIComponent(ev.wiki)}`;
-    link.target = '_blank'; link.rel = 'noopener noreferrer';
-    link.className = 'btn'; link.style.padding='6px 10px'; link.textContent = 'Открыть в Википедии';
-    meta.append(tag, link);
-
-    card.append(media, content, meta);
-    grid.append(card);
-
-    // Подгрузка изображения через Wikipedia REST API
-    fetch(`https://ru.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(ev.wiki)}`)
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        let src = data && data.thumbnail ? data.thumbnail.source : null;
-        if(!src && data && data.originalimage) src = data.originalimage.source;
-        if(src){
-          img.src = src;
-          img.onload = () => { img.style.opacity = 1; sk.remove(); }
-          img.onerror = () => { imgRemoveSkeleton(); }
-        }else{
-          imgRemoveSkeleton();
-        }
-        function imgRemoveSkeleton(){
-          sk.remove();
-          // плейсхолдер SVG
-          const ph = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-            <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900">
-              <defs>
-                <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-                  <stop offset="0%" stop-color="#334155"/>
-                  <stop offset="100%" stop-color="#0f172a"/>
-                </linearGradient>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#g)"/>
-              <g fill="#94a3b8" font-family="system-ui,Segoe UI,Roboto" font-size="56">
-                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">Нет изображения</text>
-              </g>
-            </svg>
-          `);
-          img.src = ph; img.style.opacity = 1;
-        }
-      })
-      .catch(() => {
-        // если API недоступен — показать плейсхолдер
-        sk.remove();
-        img.src = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900"><rect width="100%" height="100%" fill="#1f2937"/></svg>');
-        img.style.opacity = 1;
+  <script>
+    const factButtons = document.querySelectorAll('.fact-btn');
+    factButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        target.classList.toggle('show');
       });
-  });
-}
+    });
 
-function doFilter(){
-  const term = q.value.trim().toLowerCase();
-  const filtered = events.filter(e => (e.year+' '+e.title+' '+e.desc).toLowerCase().includes(term));
-  const list = filtered.sort((a,b)=> (asc?1:-1) * (normalizeYear(a.year) - normalizeYear(b.year)));
-  render(list);
-}
-
-q.addEventListener('input', doFilter);
-sortBtn.addEventListener('click', ()=>{
-  asc = !asc;
-  sortBtn.textContent = asc ? '⏱️ По дате (возр.)' : '⏱️ По дате (убыв.)';
-  doFilter();
-});
-toTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
-toBottom.addEventListener('click', ()=> window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'}));
-
-toggleTheme.addEventListener('click', ()=>{
-  document.body.classList.toggle('light');
-  localStorage.setItem('calendarTheme', document.body.classList.contains('light') ? 'light' : 'dark');
-});
-
-// инициализация
-(function init(){
-  const saved = localStorage.getItem('calendarTheme');
-  if(saved === 'dark') document.body.classList.remove('light');
-  render([...events].sort((a,b)=> normalizeYear(a.year) - normalizeYear(b.year)));
-})();
-</script>
+    const quiz = document.querySelector('.quiz');
+    const quizResult = document.getElementById('quiz-result');
+    quiz.addEventListener('click', (event) => {
+      if (event.target.tagName !== 'BUTTON') return;
+      const buttons = quiz.querySelectorAll('button');
+      buttons.forEach(btn => btn.classList.remove('correct', 'wrong'));
+      const chosenIndex = Array.from(buttons).indexOf(event.target) + 1;
+      const answerIndex = Number(quiz.dataset.answer);
+      if (chosenIndex === answerIndex) {
+        event.target.classList.add('correct');
+        quizResult.textContent = 'Правильно! Нил — сердце Египта.';
+      } else {
+        event.target.classList.add('wrong');
+        quizResult.textContent = 'Почти! Попробуй ещё раз.';
+      }
+    });
+  </script>
 </body>
 </html>
